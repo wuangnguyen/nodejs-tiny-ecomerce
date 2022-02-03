@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  product-service:
+    container_name: product-service-dev
+    command: npm run dev -L
+
+  # tracking-service:
+  #   container_name: tracking-service-dev
+  #   command: npm run dev -L
