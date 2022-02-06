@@ -1,8 +1,8 @@
 const EventBus = require('domain-events').EventBus;
 const { GetListWithConditionsEvent, GetDetailEvent } = require('./events');
 const { producer, pushMessageToKafka } = require('../../kafka.producer');
+
 const pushMessageHandler = (aEvent) => {
-  console.log(aEvent.payload());
   pushMessageToKafka(producer, aEvent.name(), aEvent.payload());
 };
 module.exports = () => {

@@ -8,11 +8,12 @@ services:
     image: product-service
     environment:
       - MONGODB_URL=${PRODUCT_SERVICE_MONGODB_URL}
+      - KAFKA_BROKERS=${KAFKA_BROKERS}
     ports:
       - '${PRODUCT_SERVICE_PORT}:3000'
     depends_on:
       - mongodb
-      # - kafka
+      - kafka
     volumes:
       - .:/usr/app/product-service
     networks:
@@ -34,67 +35,59 @@ services:
   #   networks:
   #     - node-network
 
-  # zookeeper:
-  #   image: confluentinc/cp-zookeeper:latest
-  #   environment:
-  #     ZOOKEEPER_CLIENT_PORT: 2181
-  #     ZOOKEEPER_TICK_TIME: 2000
-  #   ports:
-  #     - 22181:2181
-  
-  # kafka:
-  #   image: confluentinc/cp-kafka:latest
-  #   depends_on:
-  #     - zookeeper
-  #   ports:
-  #     - 29092:29092
-  #     - 9092:9092
-  #   environment:
-  #     KAFKA_BROKER_ID: 1
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-  #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+        
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    # ports:
+    #   - 29092:29092
+    #   - 9092:9092
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+    # environment:
+    #   KAFKA_BROKER_ID: 1
+    #   KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    #   KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+    #   KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+    #   KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    #   KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  # init-kafka:
-  #   image: confluentinc/cp-kafka:latest
-  #   depends_on:
-  #     - kafka
-  #   command: "bash -c 'echo Waiting for Kafka to be ready... && \
-  #                      cub kafka-ready -b kafka:9092 1 60 && \
-  #                      kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic ${KAFKA_TOPIC} && \
-  #                      echo -e 'Successfully created the following topics:'
-  #                      kafka-topics --bootstrap-server kafka:9092 --list
-  #                      '"
-  #   environment:
-  #     # The following settings are listed here only to satisfy the image's requirements.
-  #     # We override the image's `command` anyways, hence this container will not start a broker.
-  #     KAFKA_BROKER_ID: ignored
-  #     KAFKA_ZOOKEEPER_CONNECT: ignored
-
-  #   # entrypoint: [ '/bin/sh', '-c' ]
-  #   # command: |
-  #   #   "
-  #   #   # blocks until kafka is reachable
-  #   #   kafka-topics --bootstrap-server kafka:29092 --list
-
-  #   #   echo -e 'Creating kafka topics'
-  #   #   kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic ${KAFKA_TOPIC} --replication-factor 1 --partitions 1
-
-  #   #   echo -e 'Successfully created the following topics:'
-  #   #   kafka-topics --bootstrap-server kafka:29092 --list
-  #   #   "
+  init-kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka
+    command: "bash -c 'echo Waiting for Kafka to be ready... && \
+      cub kafka-ready -b kafka:9092 1 60 && \
+      kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic ${KAFKA_TOPIC} && \
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      '"
+    environment:
+      # The following settings are listed here only to satisfy the image's requirements.
+      # We override the image's `command` anyways, hence this container will not start a broker.
+      KAFKA_BROKER_ID: ignored
+      KAFKA_ZOOKEEPER_CONNECT: ignored
 
   mongodb:
     image: mongo:4.2.1-bionic
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
       - dbdata:/data/db
     networks:
       - node-network
-
 
 volumes:
   dbdata:

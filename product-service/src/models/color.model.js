@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { paginate, toJSON } = require('./plugins');
 var Schema = mongoose.Schema;
 
 var ColorSchema = new Schema({
@@ -15,5 +15,8 @@ var ColorSchema = new Schema({
     max: 7
   }
 });
+
 ColorSchema.plugin(toJSON);
+ColorSchema.plugin(paginate);
+
 module.exports = mongoose.model('Color', ColorSchema);

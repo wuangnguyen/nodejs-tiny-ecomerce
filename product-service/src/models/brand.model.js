@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { paginate, toJSON } = require('./plugins');
 var Schema = mongoose.Schema;
 
 var BrandSchema = new Schema({
@@ -10,4 +10,6 @@ var BrandSchema = new Schema({
   }
 });
 BrandSchema.plugin(toJSON);
+BrandSchema.plugin(paginate);
+
 module.exports = mongoose.model('Brand', BrandSchema);

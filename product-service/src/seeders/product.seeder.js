@@ -6,10 +6,10 @@ const faker = require('faker');
 
 class ProductSeeder {
   static async run(logger, totalItems) {
-    // let isDocumentExists = (await Product.countDocuments()) > 0;
-    // if (isDocumentExists) {
-    //   return;
-    // }
+    let isDocumentExists = (await Product.countDocuments()) > 0;
+    if (isDocumentExists) {
+      return;
+    }
     let brands = await Brand.find({}).exec();
     let colors = await Color.find({}).exec();
     let batchSize = 10;

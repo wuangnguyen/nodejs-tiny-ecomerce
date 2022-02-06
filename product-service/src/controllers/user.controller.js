@@ -11,7 +11,7 @@ const createUser = catchAsync(async (req, res) => {
 
 const getUsers = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const options = pick(req.query, ['sort', 'limit', 'page']);
   const result = await userService.queryUsers(filter, options);
   res.send(result);
 });
@@ -39,5 +39,5 @@ module.exports = {
   getUsers,
   getUser,
   updateUser,
-  deleteUser,
+  deleteUser
 };

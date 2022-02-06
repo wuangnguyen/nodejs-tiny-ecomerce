@@ -1,3 +1,5 @@
+const aqp = require('api-query-params');
+const url = require('url');
 const requestExtractor = () => (req, res, next) => {
   req.requestInfo = {
     corelationId: req.corelationId,
@@ -8,6 +10,20 @@ const requestExtractor = () => (req, res, next) => {
     userAgent: req.get('User-Agent'),
     time: new Date().toISOString()
   };
+  const { filter, skip, limit, sort } = aqp(url.parse(req.url, true).query, {
+    skipKey: 'page'
+  });
+  console.log('From middleware' + req.url);
+  console.log(JSON.stringify(filter));
+  const options = {
+    page: skip,
+    limit,
+    sort
+  };
+  if (!req.filter) {
+    req.filter = filter;
+  }
+  req.options = options;
   next();
 };
 

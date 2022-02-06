@@ -1,19 +1,9 @@
-# RESTful API Node Server Boilerplate
-
-Some Description
+# Product Service
 
 Install the dependencies:
 
 ```bash
 npm run install
-```
-
-Set the environment variables:
-
-```bash
-cp .env.example .env
-
-# open .env and modify the environment variables (if needed)
 ```
 
 ## Table of Contents
@@ -41,22 +31,22 @@ cp .env.example .env
 - **Testing**: unit and integration tests using [Jest](https://jestjs.io)
 - **Error handling**: centralized error handling mechanism
 - **API documentation**: with [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) and [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
-- **Process management**: advanced production process management using [PM2](https://pm2.keymetrics.io)
-- **Dependency management**: with [Yarn](https://yarnpkg.com)
 - **Environment variables**: using [dotenv](https://github.com/motdotla/dotenv) and [cross-env](https://github.com/kentcdodds/cross-env#readme)
 - **Security**: set security HTTP headers using [helmet](https://helmetjs.github.io)
 - **Santizing**: sanitize request data against xss and query injection
 - **CORS**: Cross-Origin Resource-Sharing enabled using [cors](https://github.com/expressjs/cors)
 - **Compression**: gzip compression with [compression](https://github.com/expressjs/compression)
-- **CI**: continuous integration with [Travis CI](https://travis-ci.org)
 - **Docker support**
 - **Code coverage**: using [coveralls](https://coveralls.io)
-- **Code quality**: with [Codacy](https://www.codacy.com)
-- **Git hooks**: with [husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged)
 - **Linting**: with [ESLint](https://eslint.org) and [Prettier](https://prettier.io)
 - **Editor config**: consistent editor configuration using [EditorConfig](https://editorconfig.org)
 
-## Commands
+## How to run
+
+Prerequisites:
+
+- MongoDb (setup via docker compose)
+- Kafka cluster (setup via docker compose)
 
 Running locally:
 
@@ -131,13 +121,17 @@ src\
  |--config\         # Environment variables and configuration related things
  |--controllers\    # Route controllers (controller layer)
  |--docs\           # Swagger files
+ |--domain-events\  # Domain events files
  |--middlewares\    # Custom express middlewares
  |--models\         # Mongoose models (data layer)
  |--routes\         # Routes
+ |--seeders\        # Seed data
  |--services\       # Business logic (service layer)
  |--utils\          # Utility classes and functions
  |--validations\    # Request data validation schemas
  |--app.js          # Express app
+ |--kafka.producer.js
+ |--server.js
  |--index.js        # App entry point
 ```
 
@@ -160,6 +154,15 @@ List of available routes:
 `GET /v1/users/:userId` - get user\
 `PATCH /v1/users/:userId` - update user\
 `DELETE /v1/users/:userId` - delete user
+
+**Brand routes**:\
+`GET /v1/brands` - get brands
+
+**Color routes**:\
+`GET /v1/colors` - get colors
+
+**Product routes**:\
+`GET /v1/products` - get products
 
 ## Error Handling
 
@@ -341,13 +344,13 @@ The `options` param can have the following (optional) fields:
 
 ```javascript
 const options = {
-  sortBy: 'name:desc', // sort order
+  sort: 'name:desc', // sort order
   limit: 5, // maximum results per page
   page: 2 // page number
 };
 ```
 
-The plugin also supports sorting by multiple criteria (separated by a comma): `sortBy: name:desc,role:asc`
+The plugin also supports sorting by multiple criteria (separated by a comma): `sort: name:desc,role:asc`
 
 The `paginate` method returns a Promise, which fulfills with an object having the following properties:
 
@@ -373,15 +376,9 @@ To prevent a certain file or directory from being linted, add it to `.eslintigno
 
 To maintain a consistent coding style across different IDEs, the project contains `.editorconfig`
 
-## Contributing
-
-Contributions are more than welcome! Please check out the [contributing guide](CONTRIBUTING.md).
-
 ## Inspirations
 
-- [danielfsousa/express-rest-es2017-boilerplate](https://github.com/danielfsousa/express-rest-es2017-boilerplate)
-- [madhums/node-express-mongoose](https://github.com/madhums/node-express-mongoose)
-- [kunalkapadia/express-mongoose-es6-rest-api](https://github.com/kunalkapadia/express-mongoose-es6-rest-api)
+- [hagopj13/node-express-boilerplate](https://github.com/hagopj13/node-express-boilerplate)
 
 ## License
 

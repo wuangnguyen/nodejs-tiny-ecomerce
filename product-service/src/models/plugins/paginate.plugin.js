@@ -19,20 +19,28 @@ const paginate = (schema) => {
    * @returns {Promise<QueryResult>}
    */
   schema.statics.paginate = async function (filter, options) {
-    let sort = options.sort || 'createdAt';
-    if (options.sortBy) {
-      const sortingCriteria = [];
-      options.sortBy.split(',').forEach((sortOption) => {
-        const [key, order] = sortOption.split(':');
-        sortingCriteria.push((order === 'desc' ? '-' : '') + key);
-      });
-      sort = sortingCriteria.join(' ');
+    let sort = '';
+    if (options.sort) {
+      if (typeof options.sort === 'string') {
+        const sortingCriteria = [];
+        options.sort.split(',').forEach((sortOption) => {
+          const [key, order] = sortOption.split(':');
+          sortingCriteria.push((order === 'desc' ? '-' : '') + key);
+        });
+        sort = sortingCriteria.join(' ');
+      } else {
+        sort = options.sort;
+      }
+    } else {
+      sort = 'createdAt';
     }
 
     const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
     const skip = (page - 1) * limit;
-    const countPromise = this.countDocuments(filter).exec();
+    console.log('From model');
+    console.log(JSON.stringify(filter));
+    const totalResults = await this.countDocuments(filter);
     let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
 
     if (options.populate) {
@@ -46,20 +54,17 @@ const paginate = (schema) => {
       });
     }
 
-    docsPromise = docsPromise.exec();
+    const results = await docsPromise.exec();
 
-    return Promise.all([countPromise, docsPromise]).then((values) => {
-      const [totalResults, results] = values;
-      const totalPages = Math.ceil(totalResults / limit);
-      const result = {
-        results,
-        page,
-        limit,
-        totalPages,
-        totalResults
-      };
-      return Promise.resolve(result);
-    });
+    const totalPages = Math.ceil(totalResults / limit);
+    const result = {
+      results,
+      page,
+      limit,
+      totalPages,
+      totalResults
+    };
+    return result;
   };
 };
 

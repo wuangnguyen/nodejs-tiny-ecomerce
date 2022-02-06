@@ -1,30 +1,28 @@
 const express = require('express');
 const DiContainer = require('../../container');
-const { route } = require('./auth.route');
 
 const router = express.Router();
-
 const container = DiContainer.getInstance();
-const productController = container.get('ProductController');
+const colorController = container.get('ColorController');
 
-router.route('/').get(productController.find);
+router.route('/').get(colorController.find);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Products
- *   description: Product management and retrieval
+ *   name: Colors
+ *   description: Color management and retrieval
  */
 
 /**
  * @swagger
- * /products:
+ * /colors:
  *   get:
- *     summary: Get products match search/filter conditions and apply sorting
- *     description: Get products match search/filter conditions and apply sorting.
- *     tags: [Products]
+ *     summary: Get colors match search/filter conditions and apply sorting
+ *     description: Get colors match search/filter conditions and apply sorting.
+ *     tags: [Colors]
  *     parameters:
  *       - in: query
  *         name: seach/filter
@@ -61,7 +59,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Product'
+ *                     $ref: '#/components/schemas/Color'
  *                 page:
  *                   type: integer
  *                   example: 1

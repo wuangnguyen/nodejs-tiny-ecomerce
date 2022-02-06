@@ -1,30 +1,28 @@
 const express = require('express');
 const DiContainer = require('../../container');
-const { route } = require('./auth.route');
 
 const router = express.Router();
-
 const container = DiContainer.getInstance();
-const productController = container.get('ProductController');
+const brandController = container.get('BrandController');
 
-router.route('/').get(productController.find);
+router.route('/').get(brandController.find);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Products
- *   description: Product management and retrieval
+ *   name: Brands
+ *   description: Brand management and retrieval
  */
 
 /**
  * @swagger
- * /products:
+ * /brands:
  *   get:
- *     summary: Get products match search/filter conditions and apply sorting
- *     description: Get products match search/filter conditions and apply sorting.
- *     tags: [Products]
+ *     summary: Get brands match search/filter conditions and apply sorting
+ *     description: Get brands match search/filter conditions and apply sorting.
+ *     tags: [Brands]
  *     parameters:
  *       - in: query
  *         name: seach/filter
@@ -61,7 +59,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Product'
+ *                     $ref: '#/components/schemas/Brand'
  *                 page:
  *                   type: integer
  *                   example: 1
