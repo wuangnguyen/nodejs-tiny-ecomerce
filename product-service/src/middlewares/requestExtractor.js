@@ -13,8 +13,6 @@ const requestExtractor = () => (req, res, next) => {
   const { filter, skip, limit, sort } = aqp(url.parse(req.url, true).query, {
     skipKey: 'page'
   });
-  console.log('From middleware' + req.url);
-  console.log(JSON.stringify(filter));
   const options = {
     page: skip,
     limit,

@@ -6,6 +6,20 @@ const client = new Kafka({
   brokers: config.kafka.BROKERS.split(','),
   clientId: config.kafka.CLIENTID
 });
+const admin = client.admin();
+
+// remember to connect and disconnect when you are done
+const createTopicIfNotExists = async () => {
+  await admin.connect();
+  const topics = await admin.listTopics();
+  if (topics.indexOf(config.kafka.TOPIC) === -1) {
+    await admin.createTopics({
+      topics: [{ topic: config.kafka.TOPIC }]
+    });
+  }
+  await admin.disconnect();
+};
+createTopicIfNotExists();
 
 const topic = config.kafka.TOPIC;
 const producer = client.producer();

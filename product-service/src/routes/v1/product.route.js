@@ -9,6 +9,8 @@ const productController = container.get('ProductController');
 
 router.route('/').get(productController.find);
 
+router.route('/:productId').get(productController.findOne);
+
 module.exports = router;
 
 /**

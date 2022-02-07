@@ -4,7 +4,6 @@ const app = require('./app');
 const Server = require('./server');
 const mongoose = require('mongoose');
 const registerProductDomainEvents = require('./domain-events/product');
-//const { container } = require('./container');
 const { Worker } = require('worker_threads');
 
 const main = async () => {
@@ -16,7 +15,6 @@ const main = async () => {
   logger.info('Connected to MongoDB');
   const server = new Server(config, logger);
   registerProductDomainEvents();
-  //console.log(container);
   await server.start(app);
 };
 

@@ -1,6 +1,6 @@
 const Product = require('../models/product.model');
 const EventBus = require('domain-events').EventBus;
-const { GetListWithConditionsEvent } = require('../domain-events/product/events');
+const { GetListWithConditionsEvent, GetDetailEvent } = require('../domain-events/product/events');
 class ProductService {
   /**
    * Query for products
@@ -16,6 +16,18 @@ class ProductService {
     const aEvent = new GetListWithConditionsEvent({ requestInfo, filter, options });
     eventBus.dispatch(aEvent);
     return await Product.paginate(filter, options);
+  }
+
+  /**
+   * Get product by id
+   * @param {ObjectId} id
+   * @returns {Promise<User>}
+   */
+  async findOne(id, requestInfo) {
+    const eventBus = EventBus.getInstance();
+    const aEvent = new GetDetailEvent({ requestInfo, params: id });
+    eventBus.dispatch(aEvent);
+    return await Product.findById(id);
   }
 }
 

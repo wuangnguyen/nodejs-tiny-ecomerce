@@ -32,15 +32,6 @@ class GetDetailEvent extends DomainEvent {
   constructor(payload) {
     super(PRODUCT_EVENTS.GET_DETAIL, payload);
   }
-  payload = () => {
-    return JSON.parse(JSON.stringify(this.eventPayload, this.stringifyFilter));
-  };
-  stringifyFilter = (key, value) => {
-    if (value instanceof RegExp) {
-      return value.toString();
-    }
-    return value;
-  };
 }
 module.exports = {
   GetListWithConditionsEvent,

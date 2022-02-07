@@ -38,9 +38,7 @@ const paginate = (schema) => {
     const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
     const skip = (page - 1) * limit;
-    console.log('From model');
-    console.log(JSON.stringify(filter));
-    const totalResults = await this.countDocuments(filter);
+    const countPromise = this.countDocuments(filter).exec();
     let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
 
     if (options.populate) {
@@ -54,17 +52,20 @@ const paginate = (schema) => {
       });
     }
 
-    const results = await docsPromise.exec();
+    docsPromise = docsPromise.exec();
 
-    const totalPages = Math.ceil(totalResults / limit);
-    const result = {
-      results,
-      page,
-      limit,
-      totalPages,
-      totalResults
-    };
-    return result;
+    return Promise.all([countPromise, docsPromise]).then((values) => {
+      const [totalResults, results] = values;
+      const totalPages = Math.ceil(totalResults / limit);
+      const result = {
+        results,
+        page,
+        limit,
+        totalPages,
+        totalResults
+      };
+      return Promise.resolve(result);
+    });
   };
 };
 

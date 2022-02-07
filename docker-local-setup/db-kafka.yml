@@ -8,6 +8,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
+    networks:
+      - node-network
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -16,29 +18,17 @@ services:
     ports:
       - 29092:29092
       - 9092:9092
+    hostname: "kafka-internal.io"
     environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka-internal.io
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
-  init-kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - kafka
-    command: "bash -c 'echo Waiting for Kafka to be ready... && \
-      cub kafka-ready -b kafka:9092 1 60 && \
-      kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic ${KAFKA_TOPIC} && \
-      echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:9092 --list
-      '"
-    environment:
-      # The following settings are listed here only to satisfy the image's requirements.
-      # We override the image's `command` anyways, hence this container will not start a broker.
-      KAFKA_BROKER_ID: ignored
-      KAFKA_ZOOKEEPER_CONNECT: ignored
+    networks:
+      - node-network
 
   mongodb:
     image: mongo:4.2.1-bionic

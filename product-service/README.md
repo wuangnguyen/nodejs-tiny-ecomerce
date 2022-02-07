@@ -109,7 +109,7 @@ JWT_ACCESS_EXPIRATION_MINUTES=30
 JWT_REFRESH_EXPIRATION_DAYS=30
 
 KAFKA_TOPIC=tracking_activities_topic
-KAFKA_BROKERS=localhost:29092
+KAFKA_BROKERS=localhost:9094
 KAFKA_GROUPID=tracking_activities_group
 KAFKA_CLIENTID=sample_kafka_client_id
 ```
