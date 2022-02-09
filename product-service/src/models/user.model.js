@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true,
+      trim: true
     },
     email: {
       type: String,
@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema(
         if (!validator.isEmail(value)) {
           throw new Error('Invalid email');
         }
-      },
+      }
     },
     password: {
       type: String,
@@ -33,20 +33,20 @@ const userSchema = mongoose.Schema(
           throw new Error('Password must contain at least one letter and one number');
         }
       },
-      private: true, // used by the toJSON plugin
+      private: true // used by the toJSON plugin
     },
     role: {
       type: String,
       enum: roles,
-      default: 'user',
+      default: 'user'
     },
     isEmailVerified: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 

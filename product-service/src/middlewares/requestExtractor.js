@@ -1,5 +1,6 @@
 const aqp = require('api-query-params');
 const url = require('url');
+
 const requestExtractor = () => (req, res, next) => {
   req.requestInfo = {
     corelationId: req.corelationId,

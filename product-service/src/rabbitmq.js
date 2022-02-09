@@ -2,12 +2,12 @@ const amqp = require('amqplib');
 const config = require('./config/config');
 const logger = require('./config/logger');
 
-const server = config.rabbitmq.server;
-const queue = config.rabbitmq.queue;
+const { server } = config.rabbitmq;
+const { queue } = config.rabbitmq;
 console.log(config.rabbitmq);
 
-var connection;
-var channel;
+let connection;
+let channel;
 
 const connectRabbitMQ = async () => {
   try {

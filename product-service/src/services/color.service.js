@@ -1,4 +1,5 @@
 const Color = require('../models/color.model');
+
 class ColorService {
   /**
    * Query for colors

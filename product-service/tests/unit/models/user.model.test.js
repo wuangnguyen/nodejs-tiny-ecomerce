@@ -9,7 +9,7 @@ describe('User model', () => {
         name: faker.name.findName(),
         email: faker.internet.email().toLowerCase(),
         password: 'password1',
-        role: 'user',
+        role: 'user'
       };
     });
 
@@ -49,7 +49,7 @@ describe('User model', () => {
         name: faker.name.findName(),
         email: faker.internet.email().toLowerCase(),
         password: 'password1',
-        role: 'user',
+        role: 'user'
       };
       expect(new User(newUser).toJSON()).not.toHaveProperty('password');
     });

@@ -37,7 +37,7 @@ describe('toJSON plugin', () => {
   it('should remove any path set as private', () => {
     const schema = mongoose.Schema({
       public: { type: String },
-      private: { type: String, private: true },
+      private: { type: String, private: true }
     });
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
@@ -50,16 +50,16 @@ describe('toJSON plugin', () => {
     const schema = mongoose.Schema({
       public: { type: String },
       nested: {
-        private: { type: String, private: true },
-      },
+        private: { type: String, private: true }
+      }
     });
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
     const doc = new Model({
       public: 'some public value',
       nested: {
-        private: 'some nested private value',
-      },
+        private: 'some nested private value'
+      }
     });
     expect(doc.toJSON()).not.toHaveProperty('nested.private');
     expect(doc.toJSON()).toHaveProperty('public');
@@ -69,15 +69,15 @@ describe('toJSON plugin', () => {
     const schema = mongoose.Schema(
       {
         public: { type: String },
-        private: { type: String },
+        private: { type: String }
       },
       {
         toJSON: {
           transform: (doc, ret) => {
             // eslint-disable-next-line no-param-reassign
             delete ret.private;
-          },
-        },
+          }
+        }
       }
     );
     schema.plugin(toJSON);

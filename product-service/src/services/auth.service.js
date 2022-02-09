@@ -95,5 +95,5 @@ module.exports = {
   logout,
   refreshAuth,
   resetPassword,
-  verifyEmail,
+  verifyEmail
 };

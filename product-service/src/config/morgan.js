@@ -1,7 +1,7 @@
 const morgan = require('morgan');
+const uuid = require('node-uuid');
 const config = require('./config');
 const logger = require('./logger');
-var uuid = require('node-uuid');
 
 morgan.token('message', (req, res) => res.locals.errorMessage || '');
 morgan.token('corelationId', function getCorelationId(req) {

@@ -1,32 +1,32 @@
+const faker = require('faker');
 const Product = require('../models/product.model');
 const Brand = require('../models/brand.model');
 const Color = require('../models/color.model');
 const FakeProduct = require('./fake.product');
-const faker = require('faker');
 
 class ProductSeeder {
   static async run(logger, totalItems) {
-    let isDocumentExists = (await Product.countDocuments()) > 0;
+    const isDocumentExists = (await Product.countDocuments()) > 0;
     if (isDocumentExists) {
       return;
     }
-    let brands = await Brand.find({}).exec();
-    let colors = await Color.find({}).exec();
-    let batchSize = 10;
-    let loopTime = totalItems / batchSize;
+    const brands = await Brand.find({}).exec();
+    const colors = await Color.find({}).exec();
+    const batchSize = 10;
+    const loopTime = totalItems / batchSize;
     const insertMany = async (itemCount) => {
-      let products = [];
+      const products = [];
       for (let i = 0; i < itemCount; i++) {
-        let brand = brands[Math.floor(Math.random() * brands.length)];
-        let numberOfColor = Math.floor(Math.random() * 4 + 1);
-        let name = faker.commerce.productName();
-        let product = new FakeProduct(name);
+        const brand = brands[Math.floor(Math.random() * brands.length)];
+        const numberOfColor = Math.floor(Math.random() * 4 + 1);
+        const name = faker.commerce.productName();
+        const product = new FakeProduct(name);
         product.addBrand(brand);
         for (let i = 0; i < numberOfColor; i++) {
-          let color = colors[Math.floor(Math.random() * colors.length)];
+          const color = colors[Math.floor(Math.random() * colors.length)];
           product.addColors(color);
         }
-        let hasAttributes = Math.floor(Math.random() * 2);
+        const hasAttributes = Math.floor(Math.random() * 2);
         if (hasAttributes == 1) {
           product.addAttributes();
         }

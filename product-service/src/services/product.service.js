@@ -1,6 +1,7 @@
+const { EventBus } = require('domain-events');
 const Product = require('../models/product.model');
-const EventBus = require('domain-events').EventBus;
 const { GetListWithConditionsEvent, GetDetailEvent } = require('../domain-events/product/events');
+
 class ProductService {
   /**
    * Query for products

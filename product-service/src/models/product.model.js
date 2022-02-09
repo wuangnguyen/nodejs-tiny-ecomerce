@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
-var Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 const ProductSchema = mongoose.Schema(
   {
     name: {

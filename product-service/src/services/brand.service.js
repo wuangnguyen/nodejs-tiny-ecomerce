@@ -1,4 +1,5 @@
 const Brand = require('../models/brand.model');
+
 class BrandService {
   /**
    * Query for brands

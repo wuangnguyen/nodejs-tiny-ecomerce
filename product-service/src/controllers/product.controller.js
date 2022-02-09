@@ -1,6 +1,6 @@
+const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const ApiError = require('../utils/ApiError');
-const httpStatus = require('http-status');
 
 module.exports = (productService) => {
   const find = catchAsync(async (req, res) => {

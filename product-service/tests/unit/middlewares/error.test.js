@@ -29,7 +29,7 @@ describe('Error middlewares', () => {
         expect.objectContaining({
           statusCode: error.statusCode,
           message: error.message,
-          isOperational: false,
+          isOperational: false
         })
       );
     });
@@ -45,7 +45,7 @@ describe('Error middlewares', () => {
         expect.objectContaining({
           statusCode: httpStatus.INTERNAL_SERVER_ERROR,
           message: error.message,
-          isOperational: false,
+          isOperational: false
         })
       );
     });
@@ -62,7 +62,7 @@ describe('Error middlewares', () => {
         expect.objectContaining({
           statusCode: error.statusCode,
           message: httpStatus[error.statusCode],
-          isOperational: false,
+          isOperational: false
         })
       );
     });
@@ -78,7 +78,7 @@ describe('Error middlewares', () => {
         expect.objectContaining({
           statusCode: httpStatus.BAD_REQUEST,
           message: error.message,
-          isOperational: false,
+          isOperational: false
         })
       );
     });
@@ -94,7 +94,7 @@ describe('Error middlewares', () => {
         expect.objectContaining({
           statusCode: httpStatus.INTERNAL_SERVER_ERROR,
           message: httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
-          isOperational: false,
+          isOperational: false
         })
       );
     });
@@ -141,7 +141,7 @@ describe('Error middlewares', () => {
       expect(sendSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           code: httpStatus.INTERNAL_SERVER_ERROR,
-          message: httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
+          message: httpStatus[httpStatus.INTERNAL_SERVER_ERROR]
         })
       );
       expect(res.locals.errorMessage).toBe(error.message);
@@ -159,7 +159,7 @@ describe('Error middlewares', () => {
       expect(sendSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           code: error.statusCode,
-          message: error.message,
+          message: error.message
         })
       );
       config.env = process.env.NODE_ENV;

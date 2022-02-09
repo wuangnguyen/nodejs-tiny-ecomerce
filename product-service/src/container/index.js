@@ -3,8 +3,8 @@ const ConfigureProduct = require('./product.register');
 const ConfigureBrand = require('./brand.register');
 const ConfigureColor = require('./color.register');
 
-var DiContainer = (function () {
-  var instance;
+const DiContainer = (function () {
+  let instance;
 
   function createInstance() {
     instance = new Container();
@@ -15,7 +15,7 @@ var DiContainer = (function () {
   }
 
   return {
-    getInstance: function () {
+    getInstance() {
       if (!instance) {
         instance = createInstance();
       }

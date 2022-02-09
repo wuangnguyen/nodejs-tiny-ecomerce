@@ -1,8 +1,9 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const { paginate, toJSON } = require('./plugins');
-var Schema = mongoose.Schema;
 
-var ColorSchema = new Schema({
+const { Schema } = mongoose;
+
+const ColorSchema = new Schema({
   name: {
     required: true,
     unique: true,
