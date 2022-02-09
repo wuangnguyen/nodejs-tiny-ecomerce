@@ -1,9 +1,9 @@
 const EventBus = require('domain-events').EventBus;
 const { GetListWithConditionsEvent, GetDetailEvent } = require('./events');
-const { producer, pushMessageToKafka } = require('../../kafka.producer');
+const { publishMessage } = require('../../rabbitmq');
 
 const pushMessageHandler = (aEvent) => {
-  pushMessageToKafka(producer, aEvent.name(), aEvent.payload());
+  publishMessage(aEvent.name(), aEvent.payload());
 };
 module.exports = () => {
   let eventBus = EventBus.getInstance();

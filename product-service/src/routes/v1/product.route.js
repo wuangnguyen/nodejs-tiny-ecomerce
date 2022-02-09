@@ -44,7 +44,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of products
  *       - in: query
  *         name: page
  *         schema:
@@ -76,4 +76,29 @@ module.exports = router;
  *                 totalResults:
  *                   type: integer
  *                   example: 1
+ */
+
+/**
+ * @swagger
+ * /products/{id}:
+ *   get:
+ *     summary: Get a product
+ *     description: Get single product by id
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Product id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Product'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  */

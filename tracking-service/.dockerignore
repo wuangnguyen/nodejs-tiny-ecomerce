@@ -9,10 +9,9 @@
 Dockerfile
 jest.config.js
 node_modules
-coverage
 npm-debug.log
 .git
 .npmrc
-tests
+test
 README.md
 .vscode

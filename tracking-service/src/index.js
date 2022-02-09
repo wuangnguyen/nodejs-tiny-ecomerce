@@ -3,7 +3,8 @@ const logger = require('./logger');
 const app = require('./app');
 const port = app.get('port');
 const server = app.listen(port);
-const initKafkaConsumer = require('./kafka.consumer');
+const initRabbitMqConsumer = require('./rabbitmq');
+
 process.on('unhandledRejection', (reason, p) => logger.error('Unhandled Rejection at: Promise ', p, reason));
 const seedDefaultUser = async () => {
   // this for local testing purpose only.
@@ -14,7 +15,9 @@ const seedDefaultUser = async () => {
   }
 };
 server.on('listening', () => {
+  console.log(app.get('mongodb'));
+  console.log(app.get('kafka'));
   logger.info('Tracking application started on http://%s:%d', app.get('host'), port);
   seedDefaultUser();
-  initKafkaConsumer(app);
+  initRabbitMqConsumer(app);
 });

@@ -3,4 +3,7 @@ version: '3'
 services:
   product-service:
     container_name: product-service-prod
-    command: yarn start
+    command: npm run start
+  tracking-service:
+    container_name: tracking-service-prod
+    command: npm run start

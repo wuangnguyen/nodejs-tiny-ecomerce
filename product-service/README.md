@@ -163,6 +163,7 @@ List of available routes:
 
 **Product routes**:\
 `GET /v1/products` - get products
+`GET /v1/products/:productId` - get product detail
 
 ## Error Handling
 

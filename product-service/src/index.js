@@ -14,8 +14,8 @@ const main = async () => {
   await mongoose.connect(config.mongoose.url, config.mongoose.options);
   logger.info('Connected to MongoDB');
   const server = new Server(config, logger);
-  registerProductDomainEvents();
   await server.start(app);
+  registerProductDomainEvents();
 };
 
 main();

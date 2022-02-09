@@ -45,11 +45,11 @@ It could help separate development into multiple isolated scrum development team
 
 ## Business context overview
 
-![Business context overview](images/C4-level-1.jpeg)
+![Business context overview](images/C4-level-1.svg)
 
 ## API components
 
-![API components](images/C4-level-2.jpeg)
+![API components](images/C4-level-2.svg)
 
 ## How to run?
 
@@ -73,7 +73,7 @@ Run indiviual service:
 - MongoDb & Kafka cluster:
 
   - In the `docker-local-setup` folder, run this command:
-    - `docker-compose -f db-kafka.yml`
+    - `docker-compose -f db-rabbitmq.yml up`
 
 - Product Service:
 
@@ -260,20 +260,31 @@ Example data:
 "updatedAt": "2022-01-30T11:10:15.635Z"
 ```
 
-`curl -X GET http://localhost:3030/v1/activities?actionType=Product.GetListWithConditions \ --header 'Content-Type: application/json'`
+Create user
 
-=> Get activities with:
+`curl -X POST http://localhost:3030/users \ -H 'content-type: application/json' \ -d '{"email": "test@gmail.com", "password": "123456"}' `
+Note: Default user: email: admin@local.com, password: admin
 
-- actionType = 'Product.GetListWithConditions'
-- default limit = 10
-- default page = 1
-- default sort = createdAt
+Get access token:
 
-`curl -X GET http://localhost:3030/v1/activities?data.requestInfo.corelationId=aa91a3b1-cd6f-4c26-92da-605516ece2cd \ --header 'Content-Type: application/json'`
+`curl -X POST http://localhost:3030/authentication/ \ -H 'content-type: application/json' \ -d '{ "strategy": "local", "email": "admin@local.com", "password": "admin" }' `
+
+Get activities:
+
+`curl -X GET 'http://localhost:3030/v1/activities?data.requestInfo.corelationId=aa91a3b1-cd6f-4c26-92da-605516ece2cd' \ -H 'authorization: <access_token_here>' `
 
 => Get activities with:
 
 - accorelationId = 'aa91a3b1-cd6f-4c26-92da-605516ece2cd'
+- default limit = 10
+- default page = 1
+- default sort = createdAt
+
+`curl -X GET 'http://localhost:3030/v1/activities?actionType=Product.GetListWithConditions' \ -H 'authorization: <access_token_here>' `
+
+=> Get activities with:
+
+- actionType = 'Product.GetListWithConditions'
 - default limit = 10
 - default page = 1
 - default sort = createdAt

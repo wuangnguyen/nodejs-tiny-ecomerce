@@ -8,62 +8,52 @@ services:
     image: product-service
     environment:
       - MONGODB_URL=${PRODUCT_SERVICE_MONGODB_URL}
-      - KAFKA_BROKERS=${KAFKA_BROKERS}
+      - RABBITMQ_SERVER=${RABBITMQ_SERVER}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
     ports:
       - '${PRODUCT_SERVICE_PORT}:3000'
     depends_on:
       - mongodb
-      - kafka
+      - rabbitmq
     volumes:
       - .:/usr/app/product-service
     networks:
       - node-network
 
-# tracking-service:
-#   build: ../tracking-service
-#   image: tracking-service
-#   environment:
-#     - MONGODB_URL=${TRACKING_SERVICE_MONGODB_URL}
-#   ports:
-#     - '${TRACKING_SERVICE_PORT}:3000'
-#   depends_on:
-#     - mongodb
-#     - product-service
-#     # - kafka
-#   volumes:
-#     - .:/usr/src/tracking-service
-#   networks:
-#     - node-network
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
+  tracking-service:
+    build: 
+      context: ../tracking-service
+      dockerfile: Dockerfile
+    image: tracking-service
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+      - NODE_ENV=production
+      - MONGODB_URL=${TRACKING_SERVICE_MONGODB_URL}
+      - RABBITMQ_SERVER=${RABBITMQ_SERVER}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
     ports:
-      - 22181:2181
-    networks:
-      - node-network
-        
-  kafka:
-    image: confluentinc/cp-kafka:latest
+      - '${TRACKING_SERVICE_PORT}:3030'
     depends_on:
-      - zookeeper
-    ports:
-      - 29092:29092
-      - 9092:9092
-    hostname: 'kafka-internal.io'
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: kafka-internal.io
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      - mongodb
+      - rabbitmq
+      - product-service
+    volumes:
+      - .:/usr/app/tracking-service
     networks:
       - node-network
 
+  rabbitmq:
+    image: rabbitmq:3.8.27-management-alpine
+    container_name: 'rabbitmq'
+    hostname: "rabbitmq.internal.io"
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - node-network
+        
   mongodb:
     image: mongo:4.2.1-bionic
     ports:

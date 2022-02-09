@@ -1,4 +1,7 @@
 {
-  "host": "tracking-service-app.feathersjs.com",
-  "port": "PORT"
+    "rabbitmq": {
+        "server": "RABBITMQ_SERVER",
+        "queue": "RABBITMQ_QUEUE"
+    },
+    "mongodb": "MONGODB_URL"
 }

@@ -5,11 +5,9 @@
     "default": 10,
     "max": 50
   },
-  "kafka": {
-    "TOPIC": "tracking_activities_topic",
-    "BROKERS": "localhost:29092",
-    "GROUPID": "tracking_activities_group",
-    "CLIENTID": "sample_kafka_client_id"
+  "rabbitmq": {
+    "server": "amqp://localhost",
+    "queue": "demo"
   },
   "authentication": {
     "entity": "user",
