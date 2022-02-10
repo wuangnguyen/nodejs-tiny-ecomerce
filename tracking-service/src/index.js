@@ -15,8 +15,6 @@ const seedDefaultUser = async () => {
   }
 };
 server.on('listening', () => {
-  console.log(app.get('mongodb'));
-  console.log(app.get('kafka'));
   logger.info('Tracking application started on http://%s:%d', app.get('host'), port);
   seedDefaultUser();
   initRabbitMqConsumer(app);

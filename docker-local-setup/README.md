@@ -11,7 +11,7 @@ Run indiviual service:
 - MongoDb & Kafka cluster:
 
   - In the `docker-local-setup` folder, run this command:
-    - `docker-compose -f db-rabbitmq.yml up`
+    - `docker-compose -f external-services.yml up`
 
 - Product Service:
 

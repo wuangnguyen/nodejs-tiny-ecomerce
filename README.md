@@ -73,7 +73,7 @@ Run indiviual service:
 - MongoDb & Kafka cluster:
 
   - In the `docker-local-setup` folder, run this command:
-    - `docker-compose -f db-rabbitmq.yml up`
+    - `docker-compose -f external-services.yml up`
 
 - Product Service:
 
@@ -288,6 +288,12 @@ Get activities:
 - default limit = 10
 - default page = 1
 - default sort = createdAt
+
+### External services management
+
+MongoDb: http://localhost:27017
+RabbitMQ: http://localhost:15672 username: guest, password: guest
+Seq: http://localhost:8003
 
 ### Points to discuss
 

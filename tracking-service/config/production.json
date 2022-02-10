@@ -1,7 +1,10 @@
 {
-    "rabbitmq": {
-        "server": "RABBITMQ_SERVER",
-        "queue": "RABBITMQ_QUEUE"
-    },
-    "mongodb": "MONGODB_URL"
+  "rabbitmq": {
+    "server": "RABBITMQ_HOST",
+    "queue": "RABBITMQ_QUEUE"
+  },
+  "seq": {
+    "host": "SEQ_HOST"
+  },
+  "mongodb": "MONGODB_URL"
 }

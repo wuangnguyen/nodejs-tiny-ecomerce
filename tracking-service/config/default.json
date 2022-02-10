@@ -9,6 +9,9 @@
     "server": "amqp://localhost",
     "queue": "demo"
   },
+  "seq": {
+    "host": "localhost"
+  },
   "authentication": {
     "entity": "user",
     "service": "users",

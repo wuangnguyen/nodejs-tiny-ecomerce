@@ -14,6 +14,18 @@ services:
     networks:
       - node-network
 
+  seq:
+    image: datalust/seq:latest
+    container_name: "seq"
+    hostname: ${SEQ_HOST}
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 8003:80
+      - 5341:5341
+    networks:
+      - node-network
+
   mongodb:
     image: mongo:4.2.1-bionic
     ports:

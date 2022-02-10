@@ -8,8 +8,9 @@ services:
     image: product-service
     environment:
       - MONGODB_URL=${PRODUCT_SERVICE_MONGODB_URL}
-      - RABBITMQ_SERVER=${RABBITMQ_SERVER}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - SEQ_HOST=${SEQ_HOST}
     ports:
       - '${PRODUCT_SERVICE_PORT}:3000'
     depends_on:
@@ -28,8 +29,9 @@ services:
     environment:
       - NODE_ENV=production
       - MONGODB_URL=${TRACKING_SERVICE_MONGODB_URL}
-      - RABBITMQ_SERVER=${RABBITMQ_SERVER}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - SEQ_HOST=${SEQ_HOST}
     ports:
       - '${TRACKING_SERVICE_PORT}:3030'
     depends_on:
@@ -53,7 +55,19 @@ services:
         - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
         - node-network
-        
+
+  seq:
+    image: datalust/seq:latest
+    container_name: "seq"
+    hostname: '${SEQ_HOST}'
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 8003:80
+      - 5341:5341
+    networks:
+      - node-network
+
   mongodb:
     image: mongo:4.2.1-bionic
     ports:

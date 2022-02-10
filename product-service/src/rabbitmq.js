@@ -11,23 +11,31 @@ let channel;
 
 const connectRabbitMQ = async () => {
   try {
-    connection = await amqp.connect(server);
-    logger.info('connect to RabbitMQ success');
+    if (!connection || !channel) {
+      connection = await amqp.connect(server);
+      logger.info('connect to RabbitMQ success');
 
-    channel = await connection.createChannel();
-    await channel.assertQueue(queue);
+      channel = await connection.createChannel();
+      await channel.assertQueue(queue);
+    }
 
     connection.on('error', function (err) {
       logger.log(err);
+      connection = null;
+      channel = null;
       setTimeout(connectRabbitMQ, 10000);
     });
 
     connection.on('close', function () {
       logger.error('connection to RabbitQM closed!');
+      connection = null;
+      channel = null;
       setTimeout(connectRabbitMQ, 10000);
     });
   } catch (err) {
     logger.error(err);
+    connection = null;
+    channel = null;
     setTimeout(connectRabbitMQ, 10000);
   }
 };

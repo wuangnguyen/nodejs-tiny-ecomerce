@@ -22,7 +22,7 @@ Prerequisites:
 
 **Note**: To get MongoDb and a Kafka cluster up and running locally, please make sure docker and docker compose are installed already in your machine.
 
-In the `docker-local-setup` folder, run this command: `docker-compose -f db-rabbitmq.yml up`
+In the `docker-local-setup` folder, run this command: `docker-compose -f external-services.yml up`
 
 - `npm install` to install all required dependencies
 - Update environment variables accordingly in the config/ folder.
