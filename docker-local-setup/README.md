@@ -8,7 +8,7 @@ Run **all services** with docker compose:
 
 Run indiviual service:
 
-- MongoDb & Kafka cluster:
+- MongoDb & RabbitMQ:
 
   - In the `docker-local-setup` folder, run this command:
     - `docker-compose -f external-services.yml up`

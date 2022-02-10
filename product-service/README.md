@@ -46,7 +46,7 @@ npm run install
 Prerequisites:
 
 - MongoDb (setup via docker compose)
-- Kafka cluster (setup via docker compose)
+- RabbitMQ (setup via docker compose)
 
 Running locally:
 
@@ -108,10 +108,12 @@ JWT_ACCESS_EXPIRATION_MINUTES=30
 # Number of days after which a refresh token expires
 JWT_REFRESH_EXPIRATION_DAYS=30
 
-KAFKA_TOPIC=tracking_activities_topic
-KAFKA_BROKERS=localhost:9094
-KAFKA_GROUPID=tracking_activities_group
-KAFKA_CLIENTID=sample_kafka_client_id
+# RabbitMQ config
+RABBITMQ_HOST=amqp://localhost
+RABBITMQ_QUEUE=demo
+
+# Seq config
+SEQ_HOST=localhost
 ```
 
 ## Project Structure
@@ -130,7 +132,7 @@ src\
  |--utils\          # Utility classes and functions
  |--validations\    # Request data validation schemas
  |--app.js          # Express app
- |--kafka.producer.js
+ |--rabbitmq.js
  |--server.js
  |--index.js        # App entry point
 ```

@@ -18,9 +18,9 @@ To get the Feathers server running locally:
 Prerequisites:
 
 - MongoDb. You can setup a MongoDb locally or use a cloud instance. In this example, I will setup a local MongoDb via docker compose.
-- Kafka cluster. In this example, I will setup a local Kafka cluster via docker compose.
+- RabbitMQ. In this example, I will setup a local RabbitMQ via docker compose.
 
-**Note**: To get MongoDb and a Kafka cluster up and running locally, please make sure docker and docker compose are installed already in your machine.
+**Note**: To get MongoDb and a RabbitMQ up and running locally, please make sure docker and docker compose are installed already in your machine.
 
 In the `docker-local-setup` folder, run this command: `docker-compose -f external-services.yml up`
 

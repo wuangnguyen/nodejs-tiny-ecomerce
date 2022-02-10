@@ -39,7 +39,7 @@ to get to the market quickly, they just want to build a version with a very limi
 - Based on the current requirements, we can apply microservices architecture and separate the system into three services:
   - Product Service
   - Activity Tracking Service
-  - Kafka cluster
+  - RabbitMQ
 
 It could help separate development into multiple isolated scrum development teams with their own business requirements/technical stack and speed up the overall development process.
 
@@ -56,9 +56,9 @@ It could help separate development into multiple isolated scrum development team
 Prerequisites:
 
 - MongoDb. You can setup a MongoDb locally or use a cloud instance. In this example, I will setup a local MongoDb via docker compose.
-- Kafka cluster. In this example, I will setup a local Kafka cluster via docker compose.
+- RabbitMQ. In this example, I will setup a local RabbitMQ via docker compose.
 
-**Note**: To get MongoDb and a Kafka cluster up and running locally, please make sure docker and docker compose are installed already in your machine.
+**Note**: To get MongoDb and a RabbitMQ up and running locally, please make sure docker and docker compose are installed already in your machine.
 
 Run all services with docker compose:
 
@@ -70,7 +70,7 @@ Run all services with docker compose:
 
 Run indiviual service:
 
-- MongoDb & Kafka cluster:
+- MongoDb & RabbitMQ:
 
   - In the `docker-local-setup` folder, run this command:
     - `docker-compose -f external-services.yml up`
@@ -92,7 +92,7 @@ Run indiviual service:
 
 ### Product Service
 
-#### More detail [HERE](product-service/README.md)
+#### More detail [HERE](./product-service/README.md)
 
 #### Database diagram
 
@@ -230,7 +230,7 @@ Same as product above.
 
 ### Activity Tracking Service
 
-#### More detail [HERE](tracking-service/README.md)
+#### More detail [HERE](./tracking-service/README.md)
 
 Example data:
 
@@ -291,9 +291,9 @@ Get activities:
 
 ### External services management
 
-MongoDb: http://localhost:27017
-RabbitMQ: http://localhost:15672 username: guest, password: guest
-Seq: http://localhost:8003
+- MongoDb: http://localhost:27017
+- RabbitMQ: http://localhost:15672 username: guest, password: guest
+- Seq: http://localhost:8003
 
 ### Points to discuss
 
