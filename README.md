@@ -1,104 +1,93 @@
-# [NodeJs] Tiny iCommerce
+# [NodeJs] Tiny eCommerce
 
 ## Requirements:
 
-A small start-up named "iCommerce" wants to build an online shopping application to sell their products. In order
-to get to the market quickly, they just want to build a version with a very limited set of functionalities:
+A small start-up called "Tiny-eCommerce" wants to build an online shopping application to sell their products. To quickly enter the market, they are aiming for a version with minimal features:
 
-- A single web page application that shows all products on which customer can filter, sort and search for
-  products based on different criteria such as name, price, branch, color etc.
-- A backend side to serve requests from web application such as show products, filter, sort and search.
-- If customer finds a product that they like, they can only place order by calling to the company's Call Centre.
-- To support sale and marketing, all customers' activities such as searching, filtering and viewing product's
-  details need to be stored in the database.
+- A single-page web application that displays all products, allowing customers to filter, sort, and search for products based on criteria like name, price, brand, color, etc.
+- A backend to handle requests from the frontend, such as displaying products, filtering, sorting, and searching.
+- If a customer finds a product they like, they can only place an order by calling the company's Call Centre.
+- To support sales and marketing, all customer activities—such as searching, filtering, and viewing product details—should be tracked and stored in the database.
 - No customer registration is required.
 - No online payment is required.
-- You're responsible for designing and implementing the backend services, you don’t need to build the
-  frontend web application.
+- You are responsible for designing and implementing the backend services. There is no need to build the frontend application.
 
-## Business domain boundaries
+## Business Domain Boundaries
 
-- Authentication/Authorization for internal enpoint(s)
+- Authentication/Authorization for internal endpoints
 - Brand management (CRUD)
 - Color management (CRUD)
-- Product management (CRUD). Note: search/filter and sort in advanced
-- Activity tracking (Insert, search/filter and sort in advanced)
+- Product management (CRUD). Note: advanced search, filter, and sort functionality is required.
+- Activity tracking (Insert, advanced search, filter, and sort functionality)
 
-## Technical design approach
+## Technical Design Approach
 
-- Simple and maintainable — so that all levels of engineers can easily catch-up, continue developing, and maintain the system. Furthermore, a simple and reliable system might help us troubleshooting production issues faster and easier. This is the most important concern to build this application.
-- Apply some famous principles & design patterns (KISS, SOLID, Singleton, IoC, Builder, Chain Of Responsibility)
-- Apply [12factor](https://12factor.net/) methodology.
-- Lightweight dependency — reasonable dependency item to adhere to the first principle. The keys of a dependency item/library as below:
-  - Stable version (LTS).
-  - Popular and good support from the community.
-  - Good document or tutorial.
-  - Clean and easy to understand.
-  - Check for know issues if any before uses it as a dependency.
-- Stateless and lightweight application to support scaling on-demand purpose.
-- Based on the current requirements, we can apply microservices architecture and separate the system into three services:
+- **Simple and maintainable** — The system should be easy to understand and maintain for all levels of engineers. A simple, reliable system will also help troubleshoot production issues more quickly. This is the highest priority when building this application.
+- **Adopt key design principles and patterns** — such as KISS, SOLID, Singleton, IoC, Builder, and Chain of Responsibility.
+- **Follow the [12-factor](https://12factor.net/) methodology**.
+- **Lightweight dependencies** — Select stable (LTS), well-supported, popular, well-documented, and easy-to-understand libraries with no known issues. Avoid adding unnecessary dependencies to maintain simplicity.
+- **Stateless and lightweight** — The application should be lightweight and stateless to support scaling on demand.
+- Given the current requirements, a **microservices architecture** is suitable. The system can be split into three services:
   - Product Service
   - Activity Tracking Service
   - RabbitMQ
 
-It could help separate development into multiple isolated scrum development teams with their own business requirements/technical stack and speed up the overall development process.
+This approach allows development teams to work independently with their own business and technical stack, speeding up overall development.
 
-## Business context overview
+## Business Context Overview
 
 ![Business context overview](images/C4-level-1.svg)
 
-## API components
+## API Components
 
 ![API components](images/C4-level-2.svg)
 
-## How to run?
+## How to Run
 
-Prerequisites:
+### Prerequisites:
 
-- MongoDb. You can setup a MongoDb locally or use a cloud instance. In this example, I will setup a local MongoDb via docker compose.
-- RabbitMQ. In this example, I will setup a local RabbitMQ via docker compose.
+- **MongoDB**: You can set up MongoDB locally or use a cloud instance. This example uses a local MongoDB setup via Docker Compose.
+- **RabbitMQ**: This example sets up RabbitMQ locally via Docker Compose.
 
-**Note**: To get MongoDb and a RabbitMQ up and running locally, please make sure docker and docker compose are installed already in your machine.
+**Note**: Ensure Docker and Docker Compose are installed on your machine.
 
-Run all services with docker compose:
+### Running Services with Docker Compose:
 
-- In the `docker-local-setup` folder:
+- From the `docker-local-setup` folder:
   - Development mode:
     - `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
-  - Prodution mode:
+  - Production mode:
     - `docker-compose -f docker-compose.yml -f docker-compose.prod.yml up`
 
-Run indiviual service:
+### Running Individual Services:
 
-- MongoDb & RabbitMQ:
-
-  - In the `docker-local-setup` folder, run this command:
+- **MongoDB & RabbitMQ**:
+  - From the `docker-local-setup` folder, run:
     - `docker-compose -f external-services.yml up`
 
-- Product Service:
-
-  - In the `product-service` folder, follow these steps:
+- **Product Service**:
+  - Navigate to the `product-service` folder and run:
     - `npm install`
-    - `npm run dev` to run the application in development mode
-    - `npm run start` to run the application in production mode
-    - `npm run test` to run test
+    - `npm run dev` (development mode)
+    - `npm run start` (production mode)
+    - `npm run test` (run tests)
 
-- Tracking Service:
-  - In the `tracking-service` folder, follow these steps:
+- **Tracking Service**:
+  - Navigate to the `tracking-service` folder and run:
     - `npm install`
-    - `npm run dev` to run the application in development mode
-    - `npm run start` to run the application in production mode
-    - `npm run test` to run test
+    - `npm run dev` (development mode)
+    - `npm run start` (production mode)
+    - `npm run test` (run tests)
 
 ### Product Service
 
-#### More detail [HERE](./product-service/README.md)
+#### Detailed information can be found [HERE](./product-service/README.md).
 
-#### Database diagram
+#### Database Diagram
 
 ![Product service database diagram](images/product-service-database-diagram.svg)
 
-Example data:
+### Example Data
 
 ```{
     "_id" : ObjectId("61faa04b1df0d83963fe6257"),
